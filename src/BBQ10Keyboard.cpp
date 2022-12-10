@@ -19,6 +19,21 @@
 #define _REG_GIC 0x0F // gpio interrupt config
 #define _REG_GIN 0x10 // gpio interrupt status
 
+#define _REG_TOX 0x15 // Trackpad X Position
+// This is a read-only register, it is 1 byte in size.
+// Trackpad X-axis position delta since the last time this register was read.
+// The value reported is signed and can be in the range of (-128 to 127).
+// When the value of this register is read, it is afterwards reset back to 0.
+// It is recommended to read the value of this register often, or data loss might occur.
+
+#define _REG_TOY 0x16 // Trackpad Y position
+// This is a read-only register, it is 1 byte in size.
+// Trackpad Y-axis position delta since the last time this register was read.
+// The value reported is signed and can be in the range of (-128 to 127).
+// When the value of this register is read, it is afterwards reset back to 0.
+// It is recommended to read the value of this register often, or data loss might occur.
+
+
 #define _WRITE_MASK (1 << 7)
 
 #define CFG_OVERFLOW_ON  (1 << 0)
@@ -107,6 +122,15 @@ BBQ10Keyboard::KeyEvent BBQ10Keyboard::keyEvent() const
     event.state = KeyState(buf & 0xFF);
 
     return event;
+}
+
+BBQ10Keyboard::TrackpadEvent BBQ10Keyboard::trackpadEvent() const
+{
+    //TrackpadEvent event{ .x=readRegister8(_REG_TOX), .y=readRegister8(_REG_TOY) };
+    // event.x = readRegister8(_REG_TOX);
+    // event.y = readRegister8(_REG_TOY);
+
+    return TrackpadEvent{ .x=readRegister8(_REG_TOX), .y=readRegister8(_REG_TOY) };
 }
 
 float BBQ10Keyboard::backlight() const

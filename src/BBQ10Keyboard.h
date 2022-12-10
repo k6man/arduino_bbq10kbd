@@ -18,6 +18,11 @@ class BBQ10Keyboard
             char key;
             KeyState state;
         };
+        struct TrackpadEvent
+        {
+            signed char x;
+            signed char y;
+        };
 
         BBQ10Keyboard();
 
@@ -32,6 +37,7 @@ class BBQ10Keyboard
         uint8_t status(void) const;
         uint8_t keyCount(void) const;
         KeyEvent keyEvent(void) const;
+        TrackpadEvent trackpadEvent(void) const;
 
         float backlight() const;
         void setBacklight(float value);
